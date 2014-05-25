@@ -258,8 +258,57 @@ Decoratori
 Decoratori
 ==========
 
+* Pot primi argumente.
+
+.. code-block:: python
+
+   cache = {}
+   
+   @memoize(cache=cache)
+   def fibbonaci(n):
+       ...
+	   
+* Pentru asta, trebuie să modificăm decoratorul, astfel încât să adăugăm un nou nivel de scoping.
+
+.. code-block:: python
+
+   def memoize(cache=None):
+      cache = cache or {}
+      def wrapper(func):
+          def wrapped_f(*args):
+              if args not in cache:
+                 cache[args] = func(*args)
+              return cache[args]
+          return wrapped_f
+      return wrapper
+
+* **memoize** este acum un **decorator factory**, un decorator ce întoarce alt decorator.	  
+
+------------------
+
+Decoratori
+==========
+
+* Pot fi aplicați și pe clase.
+* Un decorator aplicat pe o clasă trebuie să întoarcă tot o clasă.
+
+.. code-block:: python
+
+   def memoize_methods(klass):
+      ...
+	  return klass
+      
+   @memoize_methods
+   class MyClass:
+       ...
+	   
+-------------------	   
+	   
+
+Decoratori
+==========
+
 * Sunt mult mai multe lucruri de povestit despre ei.
-* Pot fi aplicați pe clase, pot primi argumente, pot fi înlănțuiți.
 * Forma lor cea mai simplă nu este și cea corectă.
 * Un viitor articol detaliat pe blog.ropython.org.
 
