@@ -313,3 +313,6 @@ Decoratori
 * Un viitor articol detaliat pe blog.ropython.org.
 
 ------------------
+
+Mulțumesc!
+==========
