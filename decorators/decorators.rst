@@ -77,6 +77,70 @@ Problemă
 
 ---------
 
+Utilizare
+=========
+
+1. Logging
+
+.. code-block:: python
+
+   @log("Calling func {}")
+   def add_user(request):
+      ...
+	  
+2. Sincronizare
+
+.. code-block:: python
+
+   @synchronize
+   def do_atomic_stuff():
+      ...   
+
+3. Caching
+
+.. code-block:: python
+
+   @memoize
+   def do_expensive_operation():
+      ...
+	  
+----------
+
+Utilizare
+=========
+
+4. Validarea argumentelor
+
+.. code-block:: python
+
+   @accepts(int, int)
+   @returns(list)
+   def do_operation(a, b):
+      ...
+
+5. Reexecuție în caz de eroare
+
+.. code-block:: python
+
+   @retry(FileNotFoundError)
+   def read_data(file):
+      ...
+	  
+6. Decoratori builtin
+
+.. code-block:: python
+
+   class Deque:
+      @classmethod
+      def from_list(cls, obj):
+          ...
+      @staticmethod
+      def do_operation(deque):
+         ... 	  
+
+--------------
+	  
+
 Decoratori
 ==========
 
@@ -88,7 +152,7 @@ Decoratori
 
 * Totul în Python este un obiect, în conformitate cu modeul Von Neumann-ian.
 
-* Funcțiile sunt și ele obiecte:
+* Funcțiile sunt *first-class citizens*, sunt și ele obiecte. 
 
 -------------
 
@@ -106,7 +170,10 @@ Funcții
    ...    return list(map(compute_func, elements))
    >>> compute_data([1, 2, 3, 4, 5], compute)
    [43, 46, 69, 298, 3167]
-
+   >>> a = compute_data
+   >>> a([1, 2, 3, 4, 5], compute)
+   [43, 46, 69, 298, 3167]
+   
 ---------------------------
 
 Decoratori
@@ -191,6 +258,15 @@ Componența unui decorator
    :align: center
 
 -----------------
+
+Closure
+=======
+
+* o funcție care ține minte valorile din mediul lexical înconjurător.
+* în exemplul nostru, *cache* este ținut minte de *wrapper*, chiar și în afara funcției *decorator*.
+* closure != funcții anonime.
+
+-----------
 
 Componența unui decorator
 =========================
