@@ -49,8 +49,6 @@ Problemă
 
 * utilizatorul are contul blocat -> primește un produs gratis
 
-* utilizatorul are suficienți bani în cont -> primește ceea ce a plătit
-
 
 ----
 
@@ -263,7 +261,7 @@ mocking
 
 * concept avansat de testare, în care obiectele și resursele costisitoare pot fi înlocuite de obiecte false
 
-* Python ne pune la dispoziție librărira ``mock``
+* Python ne pune la dispoziție librăria ``mock``
 
 .. code:: python
 
