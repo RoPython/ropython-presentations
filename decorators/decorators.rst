@@ -150,7 +150,7 @@ Decoratori
 
 * Ca să îi înțelegem, trebuie să înțelegem funcțiile.
 
-* Totul în Python este un obiect, în conformitate cu modeul Von Neumann-ian.
+* Totul în Python este un obiect, în conformitate cu modelul Von Neumann-ian.
 
 * Funcțiile sunt *first-class citizens*, sunt și ele obiecte. 
 
