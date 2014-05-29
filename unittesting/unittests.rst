@@ -1,5 +1,5 @@
 :title: Unit testing
-:data-transition-duration: 1000
+:data-transition-duration: 1400
 :css: css/tutorial.css
 
 ----
