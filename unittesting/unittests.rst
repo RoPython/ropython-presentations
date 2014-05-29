@@ -87,7 +87,7 @@ Soluția
     def test_negative_payment(self):
         self.assertRaises(ValueError, process_payment, user, 0, product)
         self.assertRaises(ValueError, process_payment, user, -1, product)
-		
+        
 ----
 
 
@@ -121,5 +121,46 @@ unittest
 
 * folosit pentru testarea unei singure **unități**, funcție sau clasă.
 
-        
+----
 
+Concepte
+========
+
+* test case - o unitate de test care verifică răspunsuri specifice pentru inputuri specifice
+
+* test fixture - pregătirile necesare pentru unul sau mai multe teste.
+
+* test suite - o colecție de test cases
+
+* test runner - un executor al testelor respective
+
+----
+
+unittest
+========
+
+* Cea mai simplă formă a unui test
+
+.. code-block:: python
+
+    import unittest
+   
+    class TestDeque(unittest.TestCase):
+        def test_popleft(self):
+           d = deque([1, 2, 3])
+           self.assertEqual(d.popleft(), 3)
+           self.assertEqual(d, deque([1, 2])
+    
+    unittest.main()
+
+----
+
+unittest
+========
+
+* ``unittest.TestCase`` reprezintă o unitate de testare. Testele efective trebuie să înceapă cu ``test_``.
+
+* pune la dispoziție o listă de aserțiuni, printre care:
+
+.. image:: asserts.png
+           
