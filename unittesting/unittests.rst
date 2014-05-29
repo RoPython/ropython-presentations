@@ -1,6 +1,6 @@
 :title: Unit testing
 :data-transition-duration: 1000
-:css: tutorial.css
+:css: css/tutorial.css
 
 ----
 
@@ -162,7 +162,7 @@ unittest
 
 * pune la dispoziție o listă de aserțiuni, printre care:
 
-.. image:: asserts.png
+.. image:: images/asserts.png
 
 ----
 
