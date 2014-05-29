@@ -35,23 +35,23 @@ Problemă
        # negative payment, gets money from the user
        # positive payment, but the user doesn't have enough money
        # shipping without checking the results from the payment gateway
-       
+
 ----
 
 Problemă
 ========
 
-* utilizatorul nu are bani în cont -> primește un produs pe gratis
+* utilizatorul nu are bani în cont -> primește un produs gratis
 
 * plata este o valoare negativă -> primește bani de la sistemul nostru
 
-* utilizatorul nu are suficienți bani în cont -> primește un produs pe gratis
+* utilizatorul nu are suficienți bani în cont -> primește un produs gratis
 
-* utilizatorul are contul blocat -> primește un produs pe gratis
+* utilizatorul are contul blocat -> primește un produs gratis
 
 * utilizatorul are suficienți bani în cont -> primește ceea ce a plătit
 
-   
+
 ----
 
 Dacă funcția nu a fost testată
@@ -87,7 +87,7 @@ Soluția
     def test_negative_payment(self):
         self.assertRaises(ValueError, process_payment, user, 0, product)
         self.assertRaises(ValueError, process_payment, user, -1, product)
-        
+
 ----
 
 
@@ -144,13 +144,13 @@ unittest
 .. code-block:: python
 
     import unittest
-   
+
     class TestDeque(unittest.TestCase):
         def test_popleft(self):
            d = deque([1, 2, 3])
            self.assertEqual(d.popleft(), 3)
            self.assertEqual(d, deque([1, 2])
-    
+
     unittest.main()
 
 ----
@@ -163,4 +163,131 @@ unittest
 * pune la dispoziție o listă de aserțiuni, printre care:
 
 .. image:: asserts.png
-           
+
+----
+
+unittest
+========
+
+* outputul este intuitiv
+
+.. code:: sh
+
+    F.EF
+    ======================================================================
+    ERROR: test_raises_fails (__main__.TestCase)
+    ----------------------------------------------------------------------
+    Traceback (most recent call last):
+      File "a.py", line 17, in test_raises_fails
+        zero_division()
+      File "a.py", line 4, in zero_division
+        return 1 / 0
+    ZeroDivisionError: division by zero
+
+    ======================================================================
+    FAIL: test_equal_fails (__main__.TestCase)
+    ----------------------------------------------------------------------
+    Traceback (most recent call last):
+      File "a.py", line 10, in test_equal_fails
+        self.assertEqual(1, 2)
+    AssertionError: 1 != 2
+
+    Ran 4 tests in 0.005s
+
+    FAILED (failures=2, errors=1)
+
+----
+
+Test fixtures
+=============
+
+* ``setUp`` este rulat automat înainte de fiecare test. Poate fi folosit pentru pregătirea resurselor necesare pentru teste.
+
+* ``tearDown`` este rulat după fiecare test. Poate fi folosit pentru închiderea și terminarea anumitor resurse.
+
+.. code-block:: python
+
+    class Test(unittest.TestCase):
+        def setUp(self):
+            self.database = create_connecton(host='localhost',
+                                             user='postgres')
+        def tearDown(self):
+            self.database.close()
+
+        def test_admin_is_created(self):
+            users = self.database.select_users()
+            self.assertIn('admin', users)
+
+----
+
+unittest
+========
+
+* codul de mai devreme poate deveni:
+
+.. code:: python
+
+    ...
+    def process_payment(user, payment, product):
+        if payment <= 0:
+            raise ValueError('negative payment: {}'.format(payment))
+        balance = user.account_balance()
+        if balance <= 0:
+            raise ValueError('invalid account balance: {}'.format(balance))
+        if balance - payment < 0:
+            raise ValueError('not enough money in account')
+        payment_gateway.get_money_from_account(
+            user.account, balance - payment)
+        shipment_gateway.ship_product(user, product)
+
+----
+
+unittest
+========
+
+* În condițiile de față, cum testăm metoda ``account_balance`` în cadrul metodei ``process_payment``?
+
+* Putem refactoriza astfel încât ``account_balance`` să fie primit ca argument sau ca metodă în cadrul unei clase.
+
+* Sau putem folosi mocking
+
+----
+
+:data-x: r500
+:data-y: r500
+:data-rotate-x: 180
+:data-scale: 0.1
+
+mocking
+=======
+
+* concept avansat de testare, în care obiectele și resursele costisitoare pot fi înlocuite de obiecte false
+
+* Python ne pune la dispoziție librărira ``mock``
+
+.. code:: python
+
+   from unittest import mock
+
+   ...
+
+   @mock.patch('User.account_balance',
+               new=lambda: -1)
+   def test_negative_balance(self):
+       with self.assertRaisesRegex(ValueError, "negative payment"):
+           process_payment(user, 100, product)
+
+----
+
+mocking
+=======
+
+* În exemplul de mai sus, înlocuim metoda ``account_balance`` din clasa ``User`` cu o funcție anonimă ce întoarce un număr negativ
+
+* ``process_payment`` va utiliza noua funcție.
+
+----
+
+Mulțumesc!
+==========
+
