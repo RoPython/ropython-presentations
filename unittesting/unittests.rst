@@ -26,7 +26,8 @@ Problemă
     def process_payment(user, payment, product):
         balance = user.account_balance()
         payment_gateway.get_money_from_account(
-            user.account, balance - payment)
+            user.account, payment)
+        payment_gateway.set_balance(balance - payment)    
         shipment_gateway.ship_product(user, product)
 
 .. note::
@@ -79,6 +80,7 @@ Soluția
         balance = user.account_balance()
         payment_gateway.get_money_from_account(
             user.account, balance - payment)
+        payment_gateway.set_balance(balance - payment)
         shipment_gateway.ship_product(user, product)
 
     ...
@@ -236,6 +238,7 @@ unittest
             raise ValueError('not enough money in account')
         payment_gateway.get_money_from_account(
             user.account, balance - payment)
+        payment_gateway.set_balance(balance - payment)    
         shipment_gateway.ship_product(user, product)
 
 ----
@@ -243,7 +246,27 @@ unittest
 unittest
 ========
 
-* În condițiile de față, cum testăm metoda ``account_balance`` în cadrul metodei ``process_payment``?
+.. code:: python
+
+    def test_negative_payment(self):
+        with self.assertRaisesRegex(ValueError, "negative payment"):
+            process_payment(user, 0, product)
+        with self.assertRaisesRegex(ValueError, "negative payment"):
+            process_payment(user, -1, product)
+            
+    def test_balance(self):
+        user = User(name='George', acount='ROIBANBRDBCR..', balance=0)
+        with self.assertRaisesRegex(ValueError, "invalid account balance"):
+            process_payment(user, 100, product)
+
+----            
+
+    
+
+unittest
+========
+
+* În condițiile în care ``account_balance`` era o apel de funcție separat, cum am fi testat-o?
 
 * Putem refactoriza astfel încât ``account_balance`` să fie primit ca argument sau ca metodă în cadrul unei clase.
 
