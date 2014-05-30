@@ -26,7 +26,8 @@ Problemă
     def process_payment(user, payment, product):
         balance = user.account_balance()
         payment_gateway.get_money_from_account(
-            user.account, balance - payment)
+            user.account, payment)
+        payment_gateway.set_balance(balance - payment)    
         shipment_gateway.ship_product(user, product)
 
 .. note::
@@ -79,6 +80,7 @@ Soluția
         balance = user.account_balance()
         payment_gateway.get_money_from_account(
             user.account, balance - payment)
+        payment_gateway.set_balance(balance - payment)
         shipment_gateway.ship_product(user, product)
 
     ...
@@ -236,6 +238,7 @@ unittest
             raise ValueError('not enough money in account')
         payment_gateway.get_money_from_account(
             user.account, balance - payment)
+        payment_gateway.set_balance(balance - payment)    
         shipment_gateway.ship_product(user, product)
 
 ----
