@@ -204,7 +204,7 @@ Decoratori
 
    >>> def decorator(func):
    ...    def wrapper(a):
-   ...       print("I'm another decorator")
+   ...       print("!!! I'm another decorator !!!")
    ...       return func(a)
    ...    return wrapper
    >>> func = decorator(func)
